@@ -1,0 +1,881 @@
+{
+	"info": {
+		"_postman_id": "8ef4d4d0-4adb-4bc4-9f88-009bb775e0fd",
+		"name": "ozonmp/act_device_api/v1/act_device_api.proto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api/v1/devices",
+			"item": [
+				{
+					"name": "{device Id}",
+					"item": [
+						{
+							"name": "DescribeDeviceV1 - Describe a device",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"targetID = parseInt(pm.variables.get(\"DescribeDeviceId\"));",
+											"pm.test(\"Correct id\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(parseInt(jsonData.value.id)).to.eql(targetID);",
+											"});",
+											"",
+											"pm.test(\"Body includes: 'platform', 'userId', 'enteredAt'\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"platform\");",
+											"    pm.expect(pm.response.text()).to.include(\"userId\");",
+											"    pm.expect(pm.response.text()).to.include(\"enteredAt\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "grpc-metadata-log-level",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-request",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-response",
+										"value": "sint et"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/devices/{{DescribeDeviceId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"devices",
+										"{{DescribeDeviceId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "A successful response.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "grpc-metadata-log-level",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-request",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-response",
+												"value": "sint et"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/devices/:deviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"devices",
+												":deviceId"
+											],
+											"variable": [
+												{
+													"key": "deviceId",
+													"value": "sint et",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"value\": {\n    \"id\": \"dolor labore reprehenderit officia veniam\",\n    \"platform\": \"sunt magna Excep\",\n    \"userId\": \"id mollit do\",\n    \"enteredAt\": \"2019-06-30T20:48:49.739Z\"\n  }\n}"
+								},
+								{
+									"name": "An unexpected error response.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "grpc-metadata-log-level",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-request",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-response",
+												"value": "sint et"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/devices/:deviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"devices",
+												":deviceId"
+											],
+											"variable": [
+												{
+													"key": "deviceId",
+													"value": "sint et",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": 67532315,\n  \"message\": \"quis et\",\n  \"details\": [\n    {\n      \"typeUrl\": \"ut laboris\",\n      \"value\": \"laboris reprehenderit eu\"\n    },\n    {\n      \"typeUrl\": \"ullamco non in sint\",\n      \"value\": \"in velit\"\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "RemoveDeviceV1 - Remove a device",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Remove successfully\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.found).to.eql(true);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "grpc-metadata-log-level",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-request",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-response",
+										"value": "sint et"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/devices/{{RemoveDeviceId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"devices",
+										"{{RemoveDeviceId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "A successful response.",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "grpc-metadata-log-level",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-request",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-response",
+												"value": "sint et"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/devices/:deviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"devices",
+												":deviceId"
+											],
+											"variable": [
+												{
+													"key": "deviceId",
+													"value": "sint et",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"found\": true\n}"
+								},
+								{
+									"name": "An unexpected error response.",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "grpc-metadata-log-level",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-request",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-response",
+												"value": "sint et"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/devices/:deviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"devices",
+												":deviceId"
+											],
+											"variable": [
+												{
+													"key": "deviceId",
+													"value": "sint et",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": 67532315,\n  \"message\": \"quis et\",\n  \"details\": [\n    {\n      \"typeUrl\": \"ut laboris\",\n      \"value\": \"laboris reprehenderit eu\"\n    },\n    {\n      \"typeUrl\": \"ullamco non in sint\",\n      \"value\": \"in velit\"\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "UpdateDeviceV1 - Update a device",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Update successfully\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.success).to.eql(true);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "grpc-metadata-log-level",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-request",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-response",
+										"value": "sint et"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"platform\": \"MacOS\",\n  \"userId\": 999\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/devices/{{UpdateDeviceId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"devices",
+										"{{UpdateDeviceId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "A successful response.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "grpc-metadata-log-level",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-request",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-response",
+												"value": "sint et"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"platform\": \"labore cupidatat\",\n  \"userId\": \"labore reprehenderit\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/devices/:deviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"devices",
+												":deviceId"
+											],
+											"variable": [
+												{
+													"key": "deviceId",
+													"value": "sint et",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"success\": true\n}"
+								},
+								{
+									"name": "An unexpected error response.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "grpc-metadata-log-level",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-request",
+												"value": "sint et"
+											},
+											{
+												"key": "grpc-metadata-log-response",
+												"value": "sint et"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"platform\": \"labore cupidatat\",\n  \"userId\": \"labore reprehenderit\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/devices/:deviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"devices",
+												":deviceId"
+											],
+											"variable": [
+												{
+													"key": "deviceId",
+													"value": "sint et",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"code\": 67532315,\n  \"message\": \"quis et\",\n  \"details\": [\n    {\n      \"typeUrl\": \"ut laboris\",\n      \"value\": \"laboris reprehenderit eu\"\n    },\n    {\n      \"typeUrl\": \"ullamco non in sint\",\n      \"value\": \"in velit\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ListDevicesV1 - List of devices",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Body includes: 'id', 'platform', 'userId', 'enteredAt'\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"id\");",
+									"    pm.expect(pm.response.text()).to.include(\"platform\");",
+									"    pm.expect(pm.response.text()).to.include(\"userId\");",
+									"    pm.expect(pm.response.text()).to.include(\"enteredAt\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "grpc-metadata-log-level",
+								"value": "sint et"
+							},
+							{
+								"key": "grpc-metadata-log-request",
+								"value": "sint et"
+							},
+							{
+								"key": "grpc-metadata-log-response",
+								"value": "sint et"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/devices?page={{ListDevicePage}}&perPage={{ListDevicePerPage}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"devices"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "{{ListDevicePage}}"
+								},
+								{
+									"key": "perPage",
+									"value": "{{ListDevicePerPage}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "A successful response.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "grpc-metadata-log-level",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-request",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-response",
+										"value": "sint et"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/devices?page=sint et&perPage=sint et",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"devices"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "sint et"
+										},
+										{
+											"key": "perPage",
+											"value": "sint et"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"items\": [\n    {\n      \"id\": \"Lorem enim dolore\",\n      \"platform\": \"sunt Duis est\",\n      \"userId\": \"exercitation commodo minim in\",\n      \"enteredAt\": \"2011-05-19T13:57:34.960Z\"\n    },\n    {\n      \"id\": \"laborum dolore i\",\n      \"platform\": \"adipisicing dolore\",\n      \"userId\": \"culpa consectetur eiusmod\",\n      \"enteredAt\": \"2007-07-23T02:19:41.793Z\"\n    }\n  ]\n}"
+						},
+						{
+							"name": "An unexpected error response.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "grpc-metadata-log-level",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-request",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-response",
+										"value": "sint et"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/devices?page=sint et&perPage=sint et",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"devices"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "sint et"
+										},
+										{
+											"key": "perPage",
+											"value": "sint et"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": -66005384,\n  \"message\": \"dolor veniam eu id proident\",\n  \"details\": [\n    {\n      \"typeUrl\": \"aliquip ad in fugiat eu\",\n      \"value\": \"ad irure dolore c\"\n    },\n    {\n      \"typeUrl\": \"D\",\n      \"value\": \"dolor esse\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "CreateDeviceV1 - Create a device",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Body includes 'deviceId'\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"deviceId\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "grpc-metadata-log-level",
+								"value": "sint et"
+							},
+							{
+								"key": "grpc-metadata-log-request",
+								"value": "sint et"
+							},
+							{
+								"key": "grpc-metadata-log-response",
+								"value": "sint et"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"platform\": \"Symbian\",\n  \"userId\": 125\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/devices",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"devices"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "A successful response.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "grpc-metadata-log-level",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-request",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-response",
+										"value": "sint et"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"platform\": \"labore cupidatat\",\n  \"userId\": \"labore reprehenderit\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/devices",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"devices"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"deviceId\": \"id\"\n}"
+						},
+						{
+							"name": "An unexpected error response.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "grpc-metadata-log-level",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-request",
+										"value": "sint et"
+									},
+									{
+										"key": "grpc-metadata-log-response",
+										"value": "sint et"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"platform\": \"labore cupidatat\",\n  \"userId\": \"labore reprehenderit\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/devices",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"devices"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"code\": 67532315,\n  \"message\": \"quis et\",\n  \"details\": [\n    {\n      \"typeUrl\": \"ut laboris\",\n      \"value\": \"laboris reprehenderit eu\"\n    },\n    {\n      \"typeUrl\": \"ullamco non in sint\",\n      \"value\": \"in velit\"\n    }\n  ]\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/",
+			"type": "string"
+		}
+	]
+}

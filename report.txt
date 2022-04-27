@@ -1,0 +1,51 @@
+newman
+
+ozonmp/act_device_api/v1/act_device_api.proto
+
+❏ api/v1/devices / {device Id}
+↳ DescribeDeviceV1 - Describe a device
+  GET http://localhost:8080/api/v1/devices/5 [200 OK, 296B, 138ms]
+  ✓  Status code is 200
+  ✓  Correct id
+  ✓  Body includes: 'platform', 'userId', 'enteredAt'
+
+↳ RemoveDeviceV1 - Remove a device
+  DELETE http://localhost:8080/api/v1/devices/8 [200 OK, 214B, 14ms]
+  ✓  Status code is 200
+  ✓  Remove successfully
+
+↳ UpdateDeviceV1 - Update a device
+  PUT http://localhost:8080/api/v1/devices/3 [200 OK, 216B, 15ms]
+  ✓  Status code is 200
+  ✓  Update successfully
+
+❏ api/v1/devices
+↳ ListDevicesV1 - List of devices
+  GET http://localhost:8080/api/v1/devices?page=1&perPage=3 [200 OK, 482B, 18ms]
+  ✓  Status code is 200
+  ✓  Body includes: 'id', 'platform', 'userId', 'enteredAt'
+
+↳ CreateDeviceV1 - Create a device
+  POST http://localhost:8080/api/v1/devices [200 OK, 217B, 15ms]
+  ✓  Status code is 200
+  ✓  Body includes 'deviceId'
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                 5 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                 5 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                11 │                 0 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 434ms                                       │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 424B (approx)                              │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 40ms [min: 14ms, max: 138ms, s.d.: 49ms] │
+└─────────────────────────────────────────────────────────────────┘
