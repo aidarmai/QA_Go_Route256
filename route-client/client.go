@@ -20,6 +20,8 @@ type Client interface {
 	CreateDevice(ctx context.Context, body CreateDeviceRequest) (CreateDeviceResponse, *http.Response, error)
 	ListDevices(ctx context.Context, opts url.Values) (ListDevicesResponse, *http.Response, error)
 	DescribeDevice(ctx context.Context, deviceId string) (DescribeDeviceResponse, *http.Response, error)
+	RemoveDevice(ctx context.Context, deviceId string) (RemoveDeviceResponse, *http.Response, error)
+	UpdateDevice(ctx context.Context, deviceId string, body UpdateDeviceRequest) (UpdateDeviceResponse, *http.Response, error)
 }
 
 type client struct {
@@ -51,6 +53,19 @@ type Item struct {
 
 type DescribeDeviceResponse struct {
 	Value Item `json:"value"`
+}
+
+type RemoveDeviceResponse struct {
+	Found bool `json:"found"`
+}
+
+type UpdateDeviceRequest struct {
+	Platform string `json:"platform"`
+	UserId   string `json:"userId"`
+}
+
+type UpdateDeviceResponse struct {
+	Success bool `json:"success"`
 }
 
 func NewHTTPClient(basePath string, retryMax int, timeout time.Duration) Client {
@@ -216,3 +231,79 @@ func (c *client) DescribeDevice(ctx context.Context, deviceId string) (DescribeD
 	return *device, res, nil
 }
 
+func (c *client) RemoveDevice(ctx context.Context, deviceId string) (RemoveDeviceResponse, *http.Response, error) {
+	var (
+		localResponse RemoveDeviceResponse
+	)
+
+	apiUrlString := c.BasePath + "/api/v1/devices/{deviceId}"
+	apiUrlString = strings.Replace(apiUrlString, "{deviceId}", fmt.Sprintf("%v", deviceId), -1)
+	apiUrl, err := url.Parse(apiUrlString)
+	if err != nil {
+		return localResponse, nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, apiUrl.String(), nil)
+	if err != nil {
+		return localResponse, nil, err
+	}
+
+	res, err := c.Do(req)
+	if err != nil {
+		return localResponse, res, err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		logger.ErrorKV(ctx, "Bad status code", res.StatusCode)
+	}
+
+	data, _ := ioutil.ReadAll(res.Body)
+	device := new(RemoveDeviceResponse)
+
+	err = json.Unmarshal(data, &device)
+	if err != nil {
+		return localResponse, res, err
+	}
+	return *device, res, nil
+}
+
+func (c *client) UpdateDevice(ctx context.Context, deviceId string, body UpdateDeviceRequest) (UpdateDeviceResponse, *http.Response, error) {
+	var (
+		localResponse UpdateDeviceResponse
+	)
+	apiUrlString := c.BasePath + "/api/v1/devices/{deviceId}"
+	apiUrlString = strings.Replace(apiUrlString, "{deviceId}", fmt.Sprintf("%v", deviceId), -1)
+	apiUrl, err := url.Parse(apiUrlString)
+	if err != nil {
+		return localResponse, nil, err
+	}
+
+	b := new(bytes.Buffer)
+	err = json.NewEncoder(b).Encode(body)
+	if err != nil {
+		return localResponse, nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, c.BasePath+"/api/v1/devices/"+apiUrl.String(), b)
+	if err != nil {
+		return localResponse, nil, err
+	}
+	res, err := c.Do(req)
+	if err != nil {
+		return localResponse, res, err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		logger.ErrorKV(ctx, "Bad status code", res.StatusCode)
+		return localResponse, res, err
+	}
+
+	data, _ := ioutil.ReadAll(res.Body)
+	device := new(UpdateDeviceResponse)
+	err = json.Unmarshal(data, &device)
+	if err != nil {
+		return localResponse, res, err
+	}
+	return *device, res, nil
+
+}
