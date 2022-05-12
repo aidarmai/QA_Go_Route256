@@ -7,13 +7,16 @@ import (
 	"fmt"
 	"github.com/antihax/optional"
 	"github.com/ozonmp/act-device-api/test/client"
-	routeclient "github.com/ozonmp/act-device-api/test/routeclient"
 	"github.com/stretchr/testify/assert"
-	"io"
+	"net/url"
+
+	//routeclient "github.com/ozonmp/act-device-api/test/routeclient"
+	//"github.com/stretchr/testify/assert"
+	//"io"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
-	"net/url"
+	//"net/url"
 	"testing"
 	"time"
 )
@@ -143,7 +146,6 @@ func Test_HttpServer_List(t *testing.T) {
 			panic(err)
 		}
 	})
-
 	t.Run("POST with client", func(t *testing.T) {
 		// arrange
 		payload := ItemRequest{Platform: "Android", UserID: "666"}
@@ -200,6 +202,66 @@ func Test_HttpServer_List(t *testing.T) {
 		ctx := context.TODO()
 		items, _, _ := client.ListDevices(ctx, opts)
 		assert.GreaterOrEqual(t, len(items.Items), 1)
+	})
+
+	t.Run("Delete device via client API", func(t *testing.T) {
+		// arrange
+		client := routeclient.NewHTTPClient("http://127.0.0.1:8080", 5, 1*time.Second)
+		// action
+		numDevice := 3
+		//urlDevice := fmt.Sprintf("http://127.0.0.1:8080/api/v1/devices/%d", numDevice)
+		res, err := client.Do(req)
+		if err != nil {
+			panic(err)
+		}
+
+		//assert
+
+		if res.StatusCode != http.StatusOK {
+			t.Errorf("Got %v, but want %v", res.StatusCode, http.StatusOK)
+		}
+		data, _ := ioutil.ReadAll(res.Body)
+		if len(data) != 0 {
+			t.Log(string(data))
+		}
+	})
+
+	t.Run("Update device via client API", func(t *testing.T) {
+		// arrange
+		payload := ItemRequest{Platform: "Ios", UserID: "777"}
+		b := new(bytes.Buffer)
+		err := json.NewEncoder(b).Encode(payload)
+		if err != nil {
+			panic(err)
+		}
+		client := routeclient.NewHTTPClient("http://127.0.0.1:8080", 5, 1*time.Second)
+		// action
+		numDevice := 10
+		urlDevice := fmt.Sprintf("http://127.0.0.1:8080/api/v1/devices/%d", numDevice)
+		req, err := http.NewRequest(http.MethodPut, urlDevice, b)
+		if err != nil {
+			panic(err)
+		}
+		res, err := client.Do(req)
+		if err != nil {
+			panic(err)
+		}
+
+		defer func(Body io.ReadCloser) {
+			err := Body.Close()
+			if err != nil {
+				t.Log(err)
+			}
+		}(res.Body)
+		//assert
+
+		if res.StatusCode != http.StatusOK {
+			t.Errorf("Got %v, but want %v", res.StatusCode, http.StatusOK)
+		}
+		data, _ := ioutil.ReadAll(res.Body)
+		if len(data) != 0 {
+			t.Log(string(data))
+		}
 	})
 
 }
