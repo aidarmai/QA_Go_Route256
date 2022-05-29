@@ -1,0 +1,9 @@
+image: golang:1.16-stretch
+
+stages:
+  - build
+
+build job:
+  stage: build
+  script:
+    - echo "test CI"
