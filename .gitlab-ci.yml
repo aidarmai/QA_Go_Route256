@@ -15,4 +15,4 @@ greeter-test:   # This job runs in the test stage.
   script:
     - echo "Running unit tests for greeter from homework9"
     - go test ./greeter > reporttt.txt -coverprofile=coverrr.txt
-    - go tool cover -html=cover.txt -o coverrr.html
+    - go tool cover -html=coverrr.txt -o coverrr.html
