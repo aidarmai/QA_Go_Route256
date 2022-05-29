@@ -18,6 +18,6 @@ greeter-test:   # This job runs in the test stage.
     - go tool cover -html=cover.txt -o coverrr.html
 artifacts:
   paths:
-    - coverrr.txt
-    - coverrr.html
+    - ./*.txt
+    - ./*.html
   expire_in: 1 day
