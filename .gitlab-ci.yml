@@ -10,9 +10,15 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "Compiling the code..."
     - echo "Compile complete."
 
-unit-test-job:   # This job runs in the test stage.
+greeter-test:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
-    - echo "Running unit tests"
-    - go test ./greeter 
-    - echo "End tests"
+    - echo "Running unit tests for greeter from homework9"
+    - go test ./greeter > reporttt.txt -coverprofile=coverrr.txt
+  after_script:
+    - go tool cover -html=cover.txt -o coverrr.html
+artifacts:
+  paths:
+    - coverrr.txt
+    - coverrr.html
+  expire_in: 1 day
