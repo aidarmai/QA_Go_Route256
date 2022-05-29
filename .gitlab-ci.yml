@@ -13,5 +13,5 @@ test job:
   stage: test
   script:
     - echo "go test"
-    - go test ./test
+    - go test ./tests
     - echo "end test"
