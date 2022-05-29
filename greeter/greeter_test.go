@@ -2,7 +2,7 @@ package greeter
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify v1.7.0"
 	"strings"
 	"testing"
 )
