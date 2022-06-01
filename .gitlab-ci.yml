@@ -1,0 +1,106 @@
+image: golang:1.16-alpine
+
+stages:
+  - build
+  - publish
+  - deploy
+  - e2e
+  - post-deploy
+  - close
+
+build:
+  stage: build
+  script:
+    - echo "Build"
+  except:
+    - /^(test)\/.+$/
+    - tags
+
+unit:
+  stage: build
+  script:
+    - echo "Unit testing"
+  only:
+    - /^(release)\/.+$/
+    - /^(test)\/.+$/ 
+
+linter:
+  stage: build
+  script:
+    - echo "Linter"
+  only:
+    - /^(release)\/.+$/
+    - /^(test)\/.+$/ 
+
+create image:
+  stage: publish
+  script:
+    - echo "Create image for dev/stg"
+  except:
+    - /^test.*$/
+    - tags
+
+release image:
+  stage: publish
+  script:
+    - echo "Create image for prod"
+  only:
+    refs:
+        - tags
+
+development:
+  stage: deploy
+  when: manual
+  script:
+    - echo "Deploy to dev environment"
+  only:
+    - /^(feature)\/.+$/
+    - master   
+
+staging:
+  stage: deploy
+  script:
+    - echo "Deploy to stg environment"
+  only:
+    - /^(release|hotfix)\/.+$/
+
+staging latest:
+  stage: deploy
+  script:
+    - echo "Update stg with last version"
+  only:    
+    - master
+
+production:
+  stage: deploy
+  when: manual  
+  script:
+    - echo "Deploy to prod environment"
+  only:
+    refs:
+        - tags
+
+test:
+  stage: e2e
+  script:
+    - echo "API testing on stg"
+  only:
+    - /^(release)\/.+$/
+    - /^(test)\/.+$/ 
+
+ready to prod:
+  stage: close
+  when: manual
+  script:
+    - echo "Ready to prod"
+  only:
+    - /^(release|hotfix)\/.+$/
+
+close release:
+  stage: close
+  when: manual  
+  script:
+    - echo "Ready to prod"
+  only:
+    refs:
+        - tags    
