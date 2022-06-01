@@ -26,10 +26,9 @@ unit:
 
 linter:
   stage: build
+  needs: ["unit"]
   script:
     - echo "Linter"
-  needs:
-    job: unit
   only:
     - /^(release)\/.+$/
     - /^(test)\/.+$/ 
