@@ -1,11 +1,12 @@
 package expects
 
 import (
+	"github.com/ozontech/allure-go/pkg/framework/provider"
+
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
-func ExpDeleteOrUpdateDevice(t *testing.T, wantBody string, expectBody string) {
+func ExpDeleteOrUpdateDevice(t provider.T, wantBody string, expectBody string) {
 	t.Helper()
 	assert.Equal(t, wantBody, expectBody)
 }

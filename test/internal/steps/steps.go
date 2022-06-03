@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"testing"
+	"github.com/ozontech/allure-go/pkg/framework/provider"
 )
 
-func UpdateDevice(t *testing.T, numDevice int, platform string, userId string) (string, *bytes.Buffer, error) {
+func UpdateDevice(t provider.T, numDevice int, platform string, userId string) (string, *bytes.Buffer, error) {
 	t.Helper()
 	type ItemRequest struct {
 		Platform string `json:"platform"`
@@ -24,7 +24,7 @@ func UpdateDevice(t *testing.T, numDevice int, platform string, userId string) (
 	return urlDevice, b, nil
 }
 
-func CreateDevice(t *testing.T, platform string, userId string) (*bytes.Buffer, error) {
+func CreateDevice(t provider.T, platform string, userId string) (*bytes.Buffer, error) {
 	t.Helper()
 	type ItemRequest struct {
 		Platform string `json:"platform"`
