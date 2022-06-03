@@ -1,10 +1,11 @@
 package test
 
 import (
-	"github.com/ozonmp/act-device-api/test/config"
-	"github.com/ozonmp/act-device-api/test/internal/helpers"
 	"net/url"
 	"testing"
+
+	"github.com/ozonmp/act-device-api/test/config"
+	"github.com/ozonmp/act-device-api/test/internal/helpers"
 )
 
 func TestMain(m *testing.M) {
