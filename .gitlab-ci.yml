@@ -104,4 +104,24 @@ close release:
     - echo "Ready to prod"
   only:
     refs:
-        - tags    
+        - tags 
+
+greeter-test:
+  stage: e2e
+  coverage: '/coverage: \d+.\d+% of statements/'
+  before_script:
+    - go get gotest.tools/gotestsum
+  script:
+    - gotestsum --junitfile unit-tests.xml --format testname -- ./greeter
+    - go test ./greeter -json > json-report.txt
+    - go test ./greeter -cover
+  only:
+    - /^(release)\/.+$/
+    - /^(test_greeter)\/.+$/  
+  artifacts:
+    when: always
+    reports:
+      junit: unit-tests.xml
+    paths:
+      - json-report.txt
+    expire_in: 1 day  
