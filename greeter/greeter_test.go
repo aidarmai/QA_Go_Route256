@@ -39,7 +39,7 @@ func TestGreet(t *testing.T) {
 	}
 	for i, pair := range testTableGreet {
 		testName := fmt.Sprintf("%d: %d %s", i+1, pair.inputValuesHour, pair.expectedResult)
-		v := Greet(pair.inputValuesName, pair.inputValuesHour)
+		v := greet(pair.inputValuesName, pair.inputValuesHour)
 		t.Run(testName, func(t *testing.T) {
 			assert.Equal(t, pair.expectedResult, v, "want: %v, got: %v", pair.expectedResult, v)
 		})
