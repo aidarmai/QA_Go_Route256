@@ -27,8 +27,9 @@ unit:
 linter:
   stage: build
   needs: ["unit"]
+  image: golangci/golangci-lint:v1.43
   script:
-    - echo "Linter"
+    - golangci-lint run -v ./...
   only:
     - /^(release)\/.+$/
     - /^(test)\/.+$/ 
@@ -124,4 +125,4 @@ greeter-test:
       junit: unit-tests.xml
     paths:
       - json-report.txt
-    expire_in: 1 day  
+    expire_in: 1 day

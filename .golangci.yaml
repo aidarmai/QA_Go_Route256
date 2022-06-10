@@ -1,0 +1,48 @@
+run:
+  timeout: 20s
+  issues-exit-code: 1
+  tests: true
+  skip-dirs:
+    - bin
+    - vendor
+    - var
+    - tmp
+    - internal
+  skip-files:
+    - \.pb\.go$
+    - \.pb\.gw\.go$
+    - \.pb\.scratch\.go$
+    - \.pb\.goclay\.go$
+    - route-client/client.go
+    - cmd/grpc-server/main.go
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+linters-settings:
+  govet:
+    check-shadowing: true
+  dupl:
+    threshold: 100
+  goconst:
+    min-len:         2
+    min-occurrences: 3
+ 
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - goconst
+    - gosec
+    - govet
+    - ineffassign
+    - revive
+    - typecheck
+    - unused
+
+issues:
+  exclude-use-default: false
+  exclude:
+    - G104

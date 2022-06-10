@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func Greet(name string, hour int) string {
+func greet(name string, hour int) string {
 	greeting := "Good night"
 
 	if hour >= 6 && hour < 12 {
