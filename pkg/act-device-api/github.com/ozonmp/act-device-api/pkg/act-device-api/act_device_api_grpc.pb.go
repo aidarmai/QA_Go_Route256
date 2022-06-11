@@ -22,6 +22,8 @@ type ActDeviceApiServiceClient interface {
 	CreateDeviceV1(ctx context.Context, in *CreateDeviceV1Request, opts ...grpc.CallOption) (*CreateDeviceV1Response, error)
 	// DescribeDeviceV1 - Describe a device
 	DescribeDeviceV1(ctx context.Context, in *DescribeDeviceV1Request, opts ...grpc.CallOption) (*DescribeDeviceV1Response, error)
+	// InfoDevice - Info about device
+	InfoDevice(ctx context.Context, in *InfoDeviceRequest, opts ...grpc.CallOption) (*InfoDeviceResponse, error)
 	// ListDevicesV1 - List of devices
 	ListDevicesV1(ctx context.Context, in *ListDevicesV1Request, opts ...grpc.CallOption) (*ListDevicesV1Response, error)
 	// UpdateDeviceV1 - Update a device
@@ -50,6 +52,15 @@ func (c *actDeviceApiServiceClient) CreateDeviceV1(ctx context.Context, in *Crea
 func (c *actDeviceApiServiceClient) DescribeDeviceV1(ctx context.Context, in *DescribeDeviceV1Request, opts ...grpc.CallOption) (*DescribeDeviceV1Response, error) {
 	out := new(DescribeDeviceV1Response)
 	err := c.cc.Invoke(ctx, "/ozonmp.act_device_api.v1.ActDeviceApiService/DescribeDeviceV1", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *actDeviceApiServiceClient) InfoDevice(ctx context.Context, in *InfoDeviceRequest, opts ...grpc.CallOption) (*InfoDeviceResponse, error) {
+	out := new(InfoDeviceResponse)
+	err := c.cc.Invoke(ctx, "/ozonmp.act_device_api.v1.ActDeviceApiService/InfoDevice", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -91,6 +102,8 @@ type ActDeviceApiServiceServer interface {
 	CreateDeviceV1(context.Context, *CreateDeviceV1Request) (*CreateDeviceV1Response, error)
 	// DescribeDeviceV1 - Describe a device
 	DescribeDeviceV1(context.Context, *DescribeDeviceV1Request) (*DescribeDeviceV1Response, error)
+	// InfoDevice - Info about device
+	InfoDevice(context.Context, *InfoDeviceRequest) (*InfoDeviceResponse, error)
 	// ListDevicesV1 - List of devices
 	ListDevicesV1(context.Context, *ListDevicesV1Request) (*ListDevicesV1Response, error)
 	// UpdateDeviceV1 - Update a device
@@ -109,6 +122,9 @@ func (UnimplementedActDeviceApiServiceServer) CreateDeviceV1(context.Context, *C
 }
 func (UnimplementedActDeviceApiServiceServer) DescribeDeviceV1(context.Context, *DescribeDeviceV1Request) (*DescribeDeviceV1Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeDeviceV1 not implemented")
+}
+func (UnimplementedActDeviceApiServiceServer) InfoDevice(context.Context, *InfoDeviceRequest) (*InfoDeviceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InfoDevice not implemented")
 }
 func (UnimplementedActDeviceApiServiceServer) ListDevicesV1(context.Context, *ListDevicesV1Request) (*ListDevicesV1Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListDevicesV1 not implemented")
@@ -164,6 +180,24 @@ func _ActDeviceApiService_DescribeDeviceV1_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ActDeviceApiServiceServer).DescribeDeviceV1(ctx, req.(*DescribeDeviceV1Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ActDeviceApiService_InfoDevice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InfoDeviceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActDeviceApiServiceServer).InfoDevice(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ozonmp.act_device_api.v1.ActDeviceApiService/InfoDevice",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActDeviceApiServiceServer).InfoDevice(ctx, req.(*InfoDeviceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -236,6 +270,10 @@ var ActDeviceApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeDeviceV1",
 			Handler:    _ActDeviceApiService_DescribeDeviceV1_Handler,
+		},
+		{
+			MethodName: "InfoDevice",
+			Handler:    _ActDeviceApiService_InfoDevice_Handler,
 		},
 		{
 			MethodName: "ListDevicesV1",

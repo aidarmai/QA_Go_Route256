@@ -113,6 +113,72 @@ var _ interface {
 	ErrorName() string
 } = DeviceValidationError{}
 
+// Validate checks the field values on DeviceInfo with the rules defined in the
+// proto definition for this message. If any rules are violated, an error is returned.
+func (m *DeviceInfo) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Platform
+
+	return nil
+}
+
+// DeviceInfoValidationError is the validation error returned by
+// DeviceInfo.Validate if the designated constraints aren't met.
+type DeviceInfoValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeviceInfoValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeviceInfoValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeviceInfoValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeviceInfoValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeviceInfoValidationError) ErrorName() string { return "DeviceInfoValidationError" }
+
+// Error satisfies the builtin error interface
+func (e DeviceInfoValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeviceInfo.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeviceInfoValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeviceInfoValidationError{}
+
 // Validate checks the field values on CreateDeviceV1Request with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
@@ -413,6 +479,157 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DescribeDeviceV1ResponseValidationError{}
+
+// Validate checks the field values on InfoDeviceRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *InfoDeviceRequest) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if m.GetDeviceId() <= 0 {
+		return InfoDeviceRequestValidationError{
+			field:  "DeviceId",
+			reason: "value must be greater than 0",
+		}
+	}
+
+	return nil
+}
+
+// InfoDeviceRequestValidationError is the validation error returned by
+// InfoDeviceRequest.Validate if the designated constraints aren't met.
+type InfoDeviceRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e InfoDeviceRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e InfoDeviceRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e InfoDeviceRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e InfoDeviceRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e InfoDeviceRequestValidationError) ErrorName() string {
+	return "InfoDeviceRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e InfoDeviceRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sInfoDeviceRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = InfoDeviceRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = InfoDeviceRequestValidationError{}
+
+// Validate checks the field values on InfoDeviceResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *InfoDeviceResponse) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if v, ok := interface{}(m.GetValue()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InfoDeviceResponseValidationError{
+				field:  "Value",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	return nil
+}
+
+// InfoDeviceResponseValidationError is the validation error returned by
+// InfoDeviceResponse.Validate if the designated constraints aren't met.
+type InfoDeviceResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e InfoDeviceResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e InfoDeviceResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e InfoDeviceResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e InfoDeviceResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e InfoDeviceResponseValidationError) ErrorName() string {
+	return "InfoDeviceResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e InfoDeviceResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sInfoDeviceResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = InfoDeviceResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = InfoDeviceResponseValidationError{}
 
 // Validate checks the field values on ListDevicesV1Request with the rules
 // defined in the proto definition for this message. If any rules are

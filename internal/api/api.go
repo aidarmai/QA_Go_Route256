@@ -159,6 +159,56 @@ func (o *deviceAPI) DescribeDeviceV1(
 	}, nil
 }
 
+func (o *deviceAPI) InfoDevice(
+	ctx context.Context,
+	req *pb.InfoDeviceRequest,
+) (*pb.InfoDeviceResponse, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "api.InfoDevice")
+	defer span.Finish()
+
+	ctx = logger.LogLevelFromContext(ctx)
+
+	if err := req.Validate(); err != nil {
+		logger.ErrorKV(
+			ctx,
+			"InfoDevice -- invalid argument",
+			"err", err,
+		)
+
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	device, err := o.repo.DescribeDevice(ctx, req.GetDeviceId())
+	if err != nil && err != sql.ErrNoRows {
+		logger.ErrorKV(
+			ctx,
+			"InfoDevice -- failed",
+			"err", err,
+		)
+
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	if device == nil || err == sql.ErrNoRows {
+		logger.DebugKV(
+			ctx,
+			"InfoDevice -- device not found",
+			"deviceId", req.DeviceId,
+		)
+		totalDeviceNotFound.Inc()
+
+		return nil, status.Error(codes.NotFound, "device not found")
+	}
+
+	logger.DebugKV(ctx, "InfoDevice -- success")
+
+	return &pb.InfoDeviceResponse{
+		Value: &pb.DeviceInfo{
+			Platform: device.Platform,
+		},
+	}, nil
+}
+
 func (o *deviceAPI) ListDevicesV1(
 	ctx context.Context,
 	req *pb.ListDevicesV1Request,

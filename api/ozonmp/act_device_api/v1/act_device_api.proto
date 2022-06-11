@@ -23,6 +23,14 @@ service ActDeviceApiService {
       get: "/api/v1/devices/{device_id}"
     };
   }
+
+  // InfoDevice - Info about device
+  rpc InfoDevice(InfoDeviceRequest) returns (InfoDeviceResponse) {
+    option (google.api.http) = {
+      get: "/api/v2/devices/{device_id}"
+    };
+  }
+
   // ListDevicesV1 - List of devices
   rpc ListDevicesV1(ListDevicesV1Request) returns (ListDevicesV1Response) {
     option (google.api.http) = {
@@ -51,6 +59,10 @@ message Device {
   google.protobuf.Timestamp entered_at = 4;
 }
 
+message DeviceInfo {
+  string platform = 1;
+}
+
 message CreateDeviceV1Request {
   string platform = 1 [(validate.rules).string.min_len = 1];
   uint64 user_id = 2 [(validate.rules).uint64.gt = 0];
@@ -66,6 +78,14 @@ message DescribeDeviceV1Request {
 
 message DescribeDeviceV1Response {
   Device value = 1;
+}
+
+message InfoDeviceRequest {
+  uint64 device_id = 1 [(validate.rules).uint64.gt = 0];
+}
+
+message InfoDeviceResponse {
+  DeviceInfo value = 1;
 }
 
 message ListDevicesV1Request {
