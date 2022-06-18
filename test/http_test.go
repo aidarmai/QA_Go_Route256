@@ -1,3 +1,6 @@
+//go:build httptest
+// +build httptest
+
 package test
 
 import (
@@ -59,7 +62,7 @@ func Test_HttpServer(t *testing.T) {
 
 	runner.Run(t, "GET on list return devices list", func(t provider.T) {
 		page := 1
-		countOfItems := 10
+		countOfItems := 5
 		urlStr := fmt.Sprintf("http://127.0.0.1:8080/api/v1/devices?page=%d&perPage=%d", page, countOfItems)
 		response, err := http.Get(urlStr)
 		if err != nil {
@@ -204,7 +207,7 @@ func Test_HttpServer(t *testing.T) {
 	runner.Run(t, "Delete device via client API", func(t provider.T) {
 		// arrange
 		client := routeclient.NewHTTPClient("http://127.0.0.1:8080", 5, 1*time.Second)
-		numDevice := 78
+		numDevice := 10
 		apiUrl, _ := url.Parse(fmt.Sprintf("http://127.0.0.1:8080/api/v1/devices/%d", numDevice))
 
 		// action
@@ -237,9 +240,9 @@ func Test_HttpServer(t *testing.T) {
 		platform  string
 		userId    string
 	}{
-		{"UD1(1)", 48, "Ios", "100"},
-		{"UD1(2)", 49, "Android", "101"},
-		{"UD1(3)", 50, "Ubuntu", "102"},
+		{"UD1(1)", 1, "Ios", "100"},
+		{"UD1(2)", 2, "Android", "101"},
+		{"UD1(3)", 7, "Ubuntu", "102"},
 	}
 
 	for _, tt := range updateTableTest {
