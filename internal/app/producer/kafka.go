@@ -2,14 +2,12 @@ package producer
 
 import (
 	"context"
-	"github.com/ozonmp/act-device-api/internal/app/repo"
-	"log"
-	"sync"
-	"time"
-
 	"github.com/gammazero/workerpool"
+	"github.com/ozonmp/act-device-api/internal/app/repo"
 	"github.com/ozonmp/act-device-api/internal/app/sender"
 	"github.com/ozonmp/act-device-api/internal/model"
+	"log"
+	"sync"
 )
 
 type Producer interface {
@@ -18,8 +16,7 @@ type Producer interface {
 }
 
 type producer struct {
-	n       uint64
-	timeout time.Duration
+	n uint64
 
 	sender sender.EventSender
 	repo   repo.EventRepo

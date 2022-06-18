@@ -32,11 +32,11 @@ func (r repo) Lock(ctx context.Context, n uint64) ([]model.DeviceEvent, error) {
 		Set("updated_at", "now()").
 		Where(sq.Select("id").PlaceholderFormat(sq.Dollar).
 			Prefix("id IN (").
-				From("devices_events").
-				Where(sq.NotEq{"status": model.Processed}).
-				OrderBy("created_at").
-				Limit(n).
-				Suffix("FOR UPDATE SKIP LOCKED)"),
+			From("devices_events").
+			Where(sq.NotEq{"status": model.Processed}).
+			OrderBy("created_at").
+			Limit(n).
+			Suffix("FOR UPDATE SKIP LOCKED)"),
 		).
 		Suffix("RETURNING id, device_id, type, status, payload, created_at, updated_at")
 

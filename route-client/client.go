@@ -134,9 +134,9 @@ func (c *client) CreateDevice(ctx context.Context, body CreateDeviceRequest) (Cr
 	}
 
 	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			logger.ErrorKV(ctx, "Error on Body reading", err)
+		err1 := Body.Close()
+		if err1 != nil {
+			logger.ErrorKV(ctx, "Error on Body reading", err1)
 		}
 	}(res.Body)
 
