@@ -194,6 +194,38 @@
           "ActDeviceApiService"
         ]
       }
+    },
+    "/api/v2/devices/{deviceId}": {
+      "get": {
+        "summary": "InfoDevice - Info about device",
+        "operationId": "ActDeviceApiService_InfoDevice",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1InfoDeviceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "ActDeviceApiService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -273,6 +305,22 @@
         "enteredAt": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "v1DeviceInfo": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string"
+        }
+      }
+    },
+    "v1InfoDeviceResponse": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/v1DeviceInfo"
         }
       }
     },
