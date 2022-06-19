@@ -119,6 +119,17 @@ unit:
       - out.json
     expire_in: 1 days
 
+fuzzing test:
+  stage: build
+  allow_failure: true
+  script:
+    - go test ./fuzz -fuzz=Fuzz -fuzztime 30s
+  rules:
+    - if: '$CI_COMMIT_BRANCH && $CI_COMMIT_REF_NAME =~ /^(test|release|hotfix)\/.+$/'
+      when: always
+    - when: manual
+
+
 linter:
   stage: build
   image: gitlab.ozon.dev/qa/classroom-2/students/dependency_proxy/containers/golangci/golangci-lint
